@@ -1,3 +1,43 @@
+<script setup>
+import { reactive } from "vue";
+import { userRegister } from "../../lib/api/UserApi";
+import { alertError, alertSuccess } from "../../lib/alert";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+
+const user = reactive({
+  email: "",
+  student_nisn: "",
+  password: "",
+  confirm_password: "",
+});
+
+const handleSubmit = async () => {
+  console.log(user);
+  if (user.password !== user.confirm_password) {
+    await alertError("Password dan konfirmasi password tidak sama");
+    return;
+  }
+
+  try {
+    const response = await userRegister(user);
+    const responseBody = await response.json();
+    console.log(responseBody);
+
+    if (responseBody.status) {
+      await alertSuccess("Berhasil melakukan registrasi");
+      await router.push({ name: "Login" });
+    } else {
+      // handle errornya nanti, [duplicate nisn, validation, atau email]
+      await alertError(responseBody.message);
+    }
+  } catch (error) {
+    await alertError(error.message);
+  }
+};
+</script>
+
 <template>
   <div
     class="min-h-screen flex items-center justify-center px-6 md:bg-slate-100"
@@ -16,20 +56,28 @@
       <!-- form -->
       <div>
         <p class="mb-4 font-medium text-secondary-text">Daftarkan akun anda</p>
-        <form action="" class="flex flex-col gap-4 w-full mb-10">
+        <form
+          action=""
+          class="flex flex-col gap-4 w-full mb-10"
+          v-on:submit.prevent="handleSubmit"
+        >
           <input
             type="email"
             name="email"
             id="email"
             placeholder="email"
             class="border border-gray-300 rounded-md p-3 w-full"
+            required
+            v-model="user.email"
           />
           <input
             type="text"
-            name="nisn"
-            id="nisn"
+            name="student_nisn"
+            id="student_nisn"
             placeholder="nisn siswa"
             class="border border-gray-300 rounded-md p-3 w-full"
+            required
+            v-model="user.student_nisn"
           />
           <input
             type="password"
@@ -37,6 +85,8 @@
             id="password"
             placeholder="password"
             class="border border-gray-300 rounded-md p-3 w-full"
+            required
+            v-model="user.password"
           />
           <input
             type="password"
@@ -44,6 +94,8 @@
             id="confirm_password"
             placeholder="konfirmasi password"
             class="border border-gray-300 rounded-md p-3 w-full"
+            required
+            v-model="user.confirm_password"
           />
 
           <button
@@ -56,7 +108,7 @@
         <p class="text-center">
           Sudah punya akun?
           <RouterLink
-            to="/login"
+            :to="{ name: 'Login' }"
             class="text-primary-background hover:underline font-bold"
             >Login di sini!</RouterLink
           >
@@ -66,5 +118,4 @@
   </div>
 </template>
 
-<script setup></script>
 <style scoped></style>

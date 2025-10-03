@@ -44,7 +44,7 @@
         <p class="text-center">
           Belum punya akun?
           <RouterLink
-            to="/register"
+            :to="{ name: 'Register' }"
             class="text-primary-background hover:underline font-bold"
             >Daftar di sini!</RouterLink
           >
