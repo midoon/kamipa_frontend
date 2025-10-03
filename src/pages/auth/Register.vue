@@ -1,14 +1,20 @@
 <template>
-  <div class="px-6">
-    <div class="min-h-screen flex flex-col justify-center">
-      <div class="mb-20 flex-none mt-[10vh]">
-        <p
-          class="font-roboto font-bold text-primary-background text-3xl text-center"
-        >
+  <div
+    class="min-h-screen flex items-center justify-center px-6 md:bg-slate-100"
+  >
+    <!-- card -->
+    <div
+      class="w-full md:w-[400px] md:rounded-lg md:shadow-lg md:px-10 md:py-10 bg-white"
+    >
+      <!-- logo / title -->
+      <div class="mb-10 text-center">
+        <p class="font-roboto font-bold text-primary-background text-3xl">
           KAMIPA
         </p>
       </div>
-      <div class="grow">
+
+      <!-- form -->
+      <div>
         <p class="mb-4 font-medium text-secondary-text">Daftarkan akun anda</p>
         <form action="" class="flex flex-col gap-4 w-full mb-10">
           <input
@@ -26,14 +32,14 @@
             class="border border-gray-300 rounded-md p-3 w-full"
           />
           <input
-            type="text"
+            type="password"
             name="password"
             id="password"
             placeholder="password"
             class="border border-gray-300 rounded-md p-3 w-full"
           />
           <input
-            type="text"
+            type="password"
             name="confirm_password"
             id="confirm_password"
             placeholder="konfirmasi password"
@@ -59,5 +65,6 @@
     </div>
   </div>
 </template>
+
 <script setup></script>
 <style scoped></style>
