@@ -1,0 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Quicksand&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
+@import "tailwindcss";
+
+@theme {
+  --color-primary-background: #0e9f6e;
+  --color-secondary-background: #1c242e;
+  --color-primary-text: #ffffff;
+  --color-secondary-text: #b3b3b3;
+  --color-muted-text: #7a7a7a;
+  --color-accent-background: #6b7280;
+
+  --font-quicksand: "Quicksand", sans-serif;
+  --font-roboto: "Roboto", sans-serif;
+}
