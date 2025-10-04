@@ -19,6 +19,11 @@ const handleSubmit = async () => {
     return;
   }
 
+  if (user.password.length < 8) {
+    await alertError("Password minimal 8 karakter");
+    return;
+  }
+
   try {
     const response = await userRegister(user);
     const responseBody = await response.json();
@@ -28,6 +33,9 @@ const handleSubmit = async () => {
       await router.push({ name: "Login" });
     } else {
       // handle errornya nanti, [duplicate nisn, validation, atau email]
+      if (responseBody.message.toLowerCase().includes("student not found")) {
+        return await alertError("nisn siswa tidak terdaftar");
+      }
       await alertError(responseBody.message);
     }
   } catch (error) {
