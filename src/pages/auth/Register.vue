@@ -14,7 +14,6 @@ const user = reactive({
 });
 
 const handleSubmit = async () => {
-  console.log(user);
   if (user.password !== user.confirm_password) {
     await alertError("Password dan konfirmasi password tidak sama");
     return;
@@ -23,7 +22,6 @@ const handleSubmit = async () => {
   try {
     const response = await userRegister(user);
     const responseBody = await response.json();
-    console.log(responseBody);
 
     if (responseBody.status) {
       await alertSuccess("Berhasil melakukan registrasi");

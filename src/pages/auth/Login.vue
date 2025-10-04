@@ -13,11 +13,9 @@ const user = reactive({
 const auth = useAuthStore();
 
 const handleSubmit = async () => {
-  console.log(user);
   try {
     const response = await userLogin(user);
     const responseBody = await response.json();
-    console.log(responseBody);
 
     if (responseBody.status) {
       auth.storeToken(responseBody.data);
