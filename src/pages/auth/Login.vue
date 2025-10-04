@@ -1,3 +1,43 @@
+<script setup>
+import { reactive } from "vue";
+import { userLogin } from "../../lib/api/UserApi";
+import { alertError, alertSuccess } from "../../lib/alert";
+import { useRouter } from "vue-router";
+import { useAuthStore } from "../../store/auth";
+
+const user = reactive({
+  student_nisn: "",
+  password: "",
+});
+
+const auth = useAuthStore();
+
+const handleSubmit = async () => {
+  console.log(user);
+  try {
+    const response = await userLogin(user);
+    const responseBody = await response.json();
+    console.log(responseBody);
+
+    if (responseBody.status) {
+      auth.storeToken(responseBody.data);
+      await alertSuccess("Berhasil melakukan login");
+      // redirect ke halaman dashboard
+    } else {
+      // handle errornya nanti, [duplicate nisn, validation, atau email]
+      if (responseBody.message.toLowerCase().includes("record not found")) {
+        return await alertError("nisn siswa atau password salah");
+      } else if (responseBody.message.toLowerCase().includes("password")) {
+        return await alertError("nisn siswa atau password salah");
+      }
+      return await alertError(responseBody.message);
+    }
+  } catch (error) {
+    return await alertError(error.message);
+  }
+};
+</script>
+
 <template>
   <div
     class="min-h-screen flex items-center justify-center px-6 md:bg-slate-100"
@@ -18,13 +58,19 @@
         <p class="mb-4 font-medium text-secondary-text">
           Login dengan data berikut
         </p>
-        <form action="" class="flex flex-col gap-4 w-full mb-10">
+        <form
+          action=""
+          class="flex flex-col gap-4 w-full mb-10"
+          v-on:submit.prevent="handleSubmit"
+        >
           <input
             type="text"
             name="nisn"
             id="nisn"
             placeholder="nisn siswa"
             class="border border-gray-300 rounded-md p-3 w-full"
+            required
+            v-model="user.student_nisn"
           />
           <input
             type="password"
@@ -32,6 +78,8 @@
             id="password"
             placeholder="password"
             class="border border-gray-300 rounded-md p-3 w-full"
+            required
+            v-model="user.password"
           />
 
           <button
@@ -54,5 +102,4 @@
   </div>
 </template>
 
-<script setup></script>
 <style scoped></style>
