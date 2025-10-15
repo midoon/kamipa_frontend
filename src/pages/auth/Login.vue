@@ -10,6 +10,8 @@ const user = reactive({
   password: "",
 });
 
+const router = useRouter();
+
 const auth = useAuthStore();
 
 const handleSubmit = async () => {
@@ -21,6 +23,7 @@ const handleSubmit = async () => {
       auth.storeToken(responseBody.data);
       await alertSuccess("Berhasil melakukan login");
       // redirect ke halaman dashboard
+      await router.push({ name: "Dashboard" });
     } else {
       // handle errornya nanti, [duplicate nisn, validation, atau email]
       if (responseBody.message.toLowerCase().includes("record not found")) {
