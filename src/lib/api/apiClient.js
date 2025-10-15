@@ -1,4 +1,5 @@
 import { useAuthStore } from "@/store/auth";
+import { alertError } from "../../lib/alert";
 
 const BASE_URL = import.meta.env.VITE_KAMIPA_BE_ENDPOINT;
 
@@ -97,6 +98,7 @@ export const apiFetch = async (endpoint, option = {}, retryCount = 0) => {
         });
       } else {
         auth.logout();
+        await alertError("Sesi anda telah habis, silahkan login kembali");
         window.location.href = "/login";
       }
     }
