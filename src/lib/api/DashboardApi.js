@@ -4,6 +4,6 @@ export const getNews = async () => {
   return await apiFetch(`/api/news`, { method: "GET" });
 };
 
-export const getAchivements = async () => {
-  return await apiFetch(`/api/achivements`, { method: "GET" });
+export const getAchievements = async () => {
+  return await apiFetch(`/api/achievements`, { method: "GET" });
 };
